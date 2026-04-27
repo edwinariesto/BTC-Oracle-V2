@@ -4,8 +4,10 @@ dist/
 .env.local
 .env.production
 .cache/
+cache/
 coverage/
 artifacts/
+ignition/deployments/
 typechain-types/
 *.pem
 *.key
