@@ -147,7 +147,7 @@ export const wagmiConfig = createConfig({
     injected(),
     coinbaseWallet({ appName: 'BTC Oracle Predictor V2' }),
     walletConnect({
-      projectId: '66fafb19eWJh8J6Mx9DrGXKEv3ojKmqw8Cv9pscK',
+      projectId: '66fafb17bb4d99ef4e465c491abd6acb',
       metadata: {
         name: 'BTC Oracle Predictor V2',
         description: 'Tebak arah BTC di Monad Testnet',
