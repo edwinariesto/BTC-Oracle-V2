@@ -1,0 +1,41 @@
+{
+  "name": "monad-btc-oracle-predictor",
+  "version": "0.1.0",
+  "description": "BTC Price Oracle Predictor — Daily Streak Game on Monad Testnet",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "compile": "hardhat --config hardhat.config.mjs compile",
+    "deploy": "hardhat --config hardhat.config.mjs run scripts/deploy.js --network monadTestnet",
+    "node": "hardhat --config hardhat.config.mjs node"
+  },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.1.0",
+    "@tanstack/react-query": "^5.51.0",
+    "lightweight-charts": "^4.2.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sweetalert2": "^11.26.24",
+    "viem": "^2.19.0",
+    "wagmi": "^2.12.0",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.1.3",
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.4",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "dotenv": "^17.4.2",
+    "hardhat": "^3.4.1",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0"
+  }
+}

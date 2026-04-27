@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: #0a0014;
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Animated Background ── */
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(135deg, #0a0014 0%, #1a0050 40%, #0d0030 70%, #050018 100%);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Floating BTC coins */
+.btc-coin {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b 60%, #8b6914 100%);
+  box-shadow:
+    0 0 8px rgba(255, 215, 0, 0.4),
+    inset -3px -3px 8px rgba(0, 0, 0, 0.3),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.1);
+  animation: floatCoin var(--dur, 8s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: transform;
+}
+
+.btc-coin::after {
+  content: '₿';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--size, 40px) * 0.5);
+  color: rgba(139, 69, 20, 0.8);
+  font-weight: bold;
+  font-family: serif;
+}
+
+@keyframes floatCoin {
+  0%   { transform: translate(0, 0)     rotate(0deg); }
+  15%  { transform: translate(20px, -30px) rotate(20deg); }
+  30%  { transform: translate(-15px, -45px) rotate(-15deg); }
+  45%  { transform: translate(30px, -20px) rotate(30deg); }
+  60%  { transform: translate(-25px, -50px) rotate(-20deg); }
+  75%  { transform: translate(15px, -35px) rotate(25deg); }
+  90%  { transform: translate(-10px, -10px) rotate(-10deg); }
+  100% { transform: translate(0, 0)     rotate(0deg); }
+}
+
+/* Twinkling stars */
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: opacity;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.1; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1.4); box-shadow: 0 0 6px rgba(255, 255, 255, 0.9); }
+}
+
+/* Purple glow overlay */
+.purple-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 80%, rgba(138, 43, 226, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(75, 0, 130, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(138, 43, 226, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Sparkle bursts */
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  animation: sparkle var(--dur, 2.5s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes sparkle {
+  0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+  40%  { opacity: 1; transform: scale(1.5) rotate(180deg); box-shadow: 0 0 8px rgba(255, 255, 255, 0.8); }
+  100% { opacity: 0; transform: scale(0) rotate(360deg); }
+}
+
+/* ── Content above animated background ── */
+body > *:not(.animated-bg):not(style) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep App content above bg */
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* ── Connect page card ── */
+.connect-card {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  box-shadow:
+    0 0 40px rgba(138, 43, 226, 0.3),
+    0 25px 50px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ── App pages ── */
+.page-wrapper {
+  background: transparent;
+}
+
+/* ── Fonts ── */
+.font-mono { font-family: 'Space Mono', monospace; }
+
+/* ── Step dots ── */
+.step-dot {
+  @apply w-5 h-5 rounded-full border flex items-center justify-center text-xs font-mono transition-all;
+}
+.step-dot.completed { @apply bg-emerald-100 border-emerald-500 text-emerald-700 font-bold; }
+.step-dot.current    { @apply bg-violet-100 border-violet-500 text-violet-700 font-bold; }
+.step-dot.locked    { @apply bg-gray-100 border-gray-300 text-gray-400 opacity-60; }
+
+/* Day dots */
+.day-dot {
+  @apply w-5 h-5 rounded-full border flex items-center justify-center text-xs font-mono transition-all;
+}
+.day-dot.completed { @apply bg-emerald-100 border-emerald-500 text-emerald-700 font-bold; }
+.day-dot.current    { @apply bg-violet-100 border-violet-500 text-violet-700 font-bold; }
+.day-dot.locked    { @apply bg-gray-100 border-gray-300 text-gray-400 opacity-60; }
+
+/* RainbowKit sizing */
+.rainbowkit-button-bg { width: 100% !important; }
+.rainbowkit-button-bg .rainbowkit-button {
+  font-size: 13px !important;
+  padding: 8px 16px !important;
+  width: 100% !important;
+  justify-content: center !important;
+}
