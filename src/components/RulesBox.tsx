@@ -50,8 +50,8 @@ export default function RulesBox() {
           {
             num: '1',
             icon: '📌',
-            id: { title: 'Pilih Arah BTC', desc: 'Klik NAIK ↑ atau TURUN ↓ untuk simpan harga BTC saat ini' },
-            en: { title: 'Pick BTC Direction', desc: 'Click UP ↑ or DOWN ↓ to store the current BTC price' },
+            id: { title: 'Pilih Arah BTC', desc: 'Klik NAIK ▲, TURUN ▼, atau SAMA = untuk simpan harga BTC saat ini' },
+            en: { title: 'Pick BTC Direction', desc: 'Click UP ▲, DOWN ▼, or SAME = to store the current BTC price' },
             color: 'text-blue-300',
           },
           {
@@ -127,7 +127,7 @@ export default function RulesBox() {
                 {lang === 'id' ? 'SERI' : 'DRAW'} — {lang === 'id' ? 'Harga tidak berubah' : 'Price unchanged'}
               </div>
               <div className="font-mono text-xs text-slate-300">
-                {lang === 'id' ? 'Stay di step ini. Tidak dapat reward.' : 'Stay on this step. No reward.'}
+                {lang === 'id' ? 'Tetap naik level + Dapat reward' : 'Still advance level + Get reward'}
               </div>
             </div>
           </div>
