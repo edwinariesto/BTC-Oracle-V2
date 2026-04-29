@@ -368,7 +368,7 @@ export default function App() {
               <div className="px-2.5 py-1.5 bg-white/5 border border-slate-700 rounded-lg font-mono text-xs text-white/40 cursor-not-allowed">
                 🏆 {lang === 'id' ? 'Skor' : 'Score'}
               </div>
-              <ConnectButton showBalance={false} chainStatus="icon" accountStatus="address" label={tr.btnHubungkan} />
+              <ConnectButton key={lang} showBalance={false} chainStatus="icon" accountStatus="address" label={tr.btnHubungkan} />
             </div>
           </div>
         </header>
@@ -429,7 +429,7 @@ export default function App() {
             <div className="text-2xl font-bold text-white mb-3">{tr.hubungkanWallet}</div>
             <div className="text-sm text-slate-400 font-mono mb-8">{tr.untukMulai}</div>
             <div className="rainbowkit-button-bg flex justify-center">
-              <ConnectButton label={tr.btnHubungkan} />
+              <ConnectButton key={lang} label={tr.btnHubungkan} />
             </div>
           </div>
         </main>
@@ -466,7 +466,7 @@ export default function App() {
             <button onClick={() => setShowLeaderboard(true)} className="px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-lg font-mono text-xs font-bold text-white/70 hover:bg-white/20">
               🏆 {lang === 'id' ? 'Skor' : 'Score'}
             </button>
-            <ConnectButton showBalance={false} chainStatus="icon" accountStatus="address" label={isConnected ? tr.btnTerhubung : tr.btnHubungkan} />
+            <ConnectButton key={lang} showBalance={false} chainStatus="icon" accountStatus="address" label={isConnected ? tr.btnTerhubung : tr.btnHubungkan} />
           </div>
         </div>
       </header>

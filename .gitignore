@@ -13,3 +13,4 @@ typechain-types/
 *.key
 private_*
 secrets.*
+.vercel
