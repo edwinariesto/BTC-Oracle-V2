@@ -64,30 +64,11 @@ function AnimatedBackground() {
   const sparklesRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const NUM_COINS = 14
     const NUM_STARS = 50
     const NUM_SPARKLES = 12
+    const NUM_COINS = 12
 
-    const setCoins = () => {
-      if (!coinsRef.current) return
-      coinsRef.current.innerHTML = ''
-      for (let i = 0; i < NUM_COINS; i++) {
-        const el = document.createElement('div')
-        el.className = 'btc-coin'
-        const size = 28 + Math.random() * 36
-        el.style.cssText = `
-          width: ${size}px;
-          height: ${size}px;
-          left: ${Math.random() * 100}%;
-          top: ${Math.random() * 100}%;
-          --size: ${size}px;
-          --dur: ${7 + Math.random() * 8}s;
-          --delay: ${-Math.random() * 10}s;
-        `
-        coinsRef.current.appendChild(el)
-      }
-    }
-
+    // ── Stars ──────────────────────────────────────────────
     const setStars = () => {
       if (!starsRef.current) return
       starsRef.current.innerHTML = ''
@@ -107,6 +88,7 @@ function AnimatedBackground() {
       }
     }
 
+    // ── Sparkles ──────────────────────────────────────────
     const setSparkles = () => {
       if (!sparklesRef.current) return
       sparklesRef.current.innerHTML = ''
@@ -123,9 +105,112 @@ function AnimatedBackground() {
       }
     }
 
-    setCoins()
+    // ── Billiard BTC Coins ─────────────────────────────────
+    if (!coinsRef.current) return
+    coinsRef.current.innerHTML = ''
+
+    const W = window.innerWidth
+    const H = window.innerHeight
+
+    type Coin = {
+      el: HTMLDivElement
+      x: number; y: number
+      vx: number; vy: number
+      size: number; rotation: number
+    }
+
+    const coins: Coin[] = []
+
+    for (let i = 0; i < NUM_COINS; i++) {
+      const el = document.createElement('div')
+      el.className = 'btc-coin'
+      const size = 28 + Math.random() * 40
+      const speed = 1.2 + Math.random() * 2.5
+      const angle = Math.random() * Math.PI * 2
+
+      const coin: Coin = {
+        el,
+        x: Math.random() * (W - size),
+        y: Math.random() * (H - size),
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        size,
+        rotation: 0,
+      }
+
+      el.style.width = `${size}px`
+      el.style.height = `${size}px`
+      el.style.left = `${coin.x}px`
+      el.style.top = `${coin.y}px`
+      coinsRef.current.appendChild(el)
+      coins.push(coin)
+    }
+
+    let rafId: number
+    let lastTime = performance.now()
+
+    const animate = (now: number) => {
+      const dt = Math.min((now - lastTime) / 16.667, 3) // normalize to ~60fps
+      lastTime = now
+
+      for (const coin of coins) {
+        // Move
+        coin.x += coin.vx * dt
+        coin.y += coin.vy * dt
+
+        // Bounce off walls
+        if (coin.x <= 0) {
+          coin.x = 0
+          coin.vx = Math.abs(coin.vx) * (0.92 + Math.random() * 0.1)
+          coin.vy += (Math.random() - 0.5) * 0.6
+        } else if (coin.x >= W - coin.size) {
+          coin.x = W - coin.size
+          coin.vx = -Math.abs(coin.vx) * (0.92 + Math.random() * 0.1)
+          coin.vy += (Math.random() - 0.5) * 0.6
+        }
+
+        if (coin.y <= 0) {
+          coin.y = 0
+          coin.vy = Math.abs(coin.vy) * (0.92 + Math.random() * 0.1)
+          coin.vx += (Math.random() - 0.5) * 0.6
+        } else if (coin.y >= H - coin.size) {
+          coin.y = H - coin.size
+          coin.vy = -Math.abs(coin.vy) * (0.92 + Math.random() * 0.1)
+          coin.vx += (Math.random() - 0.5) * 0.6
+        }
+
+        // Speed cap
+        const spd = Math.sqrt(coin.vx * coin.vx + coin.vy * coin.vy)
+        const maxSpd = 4.5
+        if (spd > maxSpd) {
+          coin.vx = (coin.vx / spd) * maxSpd
+          coin.vy = (coin.vy / spd) * maxSpd
+        }
+        // Min speed
+        if (spd < 0.5) {
+          const a = Math.random() * Math.PI * 2
+          coin.vx = Math.cos(a) * 1.2
+          coin.vy = Math.sin(a) * 1.2
+        }
+
+        // Rotation driven by horizontal velocity
+        coin.rotation += coin.vx * 2.5 * dt
+
+        // Apply
+        coin.el.style.transform = `translate(${coin.x}px, ${coin.y}px) rotate(${coin.rotation}deg)`
+      }
+
+      rafId = requestAnimationFrame(animate)
+    }
+
+    rafId = requestAnimationFrame(animate)
+
     setStars()
     setSparkles()
+
+    return () => {
+      cancelAnimationFrame(rafId)
+    }
   }, [])
 
   return (
@@ -256,7 +341,7 @@ function RentalStatusCard({
         </div>
         <div className="flex justify-between px-3 py-2">
           <span className="text-slate-300">{lang === 'id' ? 'Biaya sewa' : 'Rental fee'}</span>
-          <span className="font-bold text-white">0.01 MON</span>
+          <span className="font-bold text-white">0.10 MON</span>
         </div>
         <div className="flex justify-between px-3 py-2">
           <span className="text-slate-300">{lang === 'id' ? 'Durasi' : 'Duration'}</span>
@@ -646,7 +731,7 @@ export default function App() {
                 {lang === 'id' ? 'Saldo Tidak Cukup!' : 'Insufficient Balance!'}
               </div>
               <div className="font-mono text-xs text-white/60 mt-1">
-                {lang === 'id' ? `Saldo: ${balanceMON} MON. Butuh 0.01 MON.` : `Balance: ${balanceMON} MON. Need 0.01 MON.`}
+                {lang === 'id' ? `Saldo: ${balanceMON} MON. Butuh 0.10 MON.` : `Balance: ${balanceMON} MON. Need 0.10 MON.`}
               </div>
               <a href="https://faucet.monad.xyz/" target="_blank" rel="noopener noreferrer"
                 className="inline-block mt-3 px-4 py-2 bg-accent text-white font-mono text-xs font-bold rounded-lg hover:bg-accent/90 transition-all">

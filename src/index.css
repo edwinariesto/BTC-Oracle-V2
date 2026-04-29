@@ -24,42 +24,31 @@ body {
   pointer-events: none;
 }
 
-/* Floating BTC coins */
+/* BTC Gold Coin — rendered via JS canvas-like divs */
 .btc-coin {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b 60%, #8b6914 100%);
+  background: radial-gradient(circle at 38% 32%, #ffe066, #ffc107 30%, #ff9800 65%, #c62828 100%);
   box-shadow:
-    0 0 8px rgba(255, 215, 0, 0.4),
-    inset -3px -3px 8px rgba(0, 0, 0, 0.3),
-    inset 3px 3px 6px rgba(255, 255, 255, 0.1);
-  animation: floatCoin var(--dur, 8s) ease-in-out infinite;
-  animation-delay: var(--delay, 0s);
+    0 0 12px rgba(255, 193, 7, 0.6),
+    0 0 30px rgba(255, 152, 0, 0.3),
+    inset -4px -4px 10px rgba(0, 0, 0, 0.35),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 193, 7, 0.5);
   will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btc-coin::after {
   content: '₿';
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(var(--size, 40px) * 0.5);
-  color: rgba(139, 69, 20, 0.8);
-  font-weight: bold;
+  color: #7b2d00;
+  font-size: 40%;
+  font-weight: 900;
   font-family: serif;
-}
-
-@keyframes floatCoin {
-  0%   { transform: translate(0, 0)     rotate(0deg); }
-  15%  { transform: translate(20px, -30px) rotate(20deg); }
-  30%  { transform: translate(-15px, -45px) rotate(-15deg); }
-  45%  { transform: translate(30px, -20px) rotate(30deg); }
-  60%  { transform: translate(-25px, -50px) rotate(-20deg); }
-  75%  { transform: translate(15px, -35px) rotate(25deg); }
-  90%  { transform: translate(-10px, -10px) rotate(-10deg); }
-  100% { transform: translate(0, 0)     rotate(0deg); }
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  line-height: 1;
 }
 
 /* Twinkling stars */
