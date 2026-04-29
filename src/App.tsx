@@ -706,6 +706,15 @@ export default function App() {
                       <span className="text-slate-300">MON/USD</span>
                       <span className="font-bold text-white">${prices.monPrice.toFixed(4)}</span>
                     </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-300">1 MON</span>
+                      <span className="font-bold text-white">
+                        ${prices.monPrice.toFixed(4)}
+                        <span className="text-slate-400 font-normal text-[10px]">
+                          {' '}/ Rp{(prices.monPrice * prices.idrRate).toLocaleString('id-ID', { maximumFractionDigits: 0 })}
+                        </span>
+                      </span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -912,6 +921,15 @@ export default function App() {
                     <div className="flex justify-between items-center pt-2 border-t border-slate-700">
                       <span className="text-slate-300">MON/USD</span>
                       <span className="font-bold text-white">${prices.monPrice.toFixed(4)}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-300">1 MON</span>
+                      <span className="font-bold text-white">
+                        ${prices.monPrice.toFixed(4)}
+                        <span className="text-slate-400 font-normal text-[10px]">
+                          {' '}/ Rp{(prices.monPrice * prices.idrRate).toLocaleString('id-ID', { maximumFractionDigits: 0 })}
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </div>
