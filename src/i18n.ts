@@ -115,6 +115,8 @@ export interface Translations {
   drawMessage: string
   winMessage: string
   loseMessage: string
+  copySuccess: string
+  copyFailed: string
 
   // New
   perpanjangSewa: string
@@ -227,6 +229,8 @@ export const translations: Record<Language, Translations> = {
     drawMessage: 'SERI! Harga tidak berubah — Anda tetap di Step ini',
     winMessage: 'MENANG! Anda dapat {reward} MON — Maju ke Step berikutnya',
     loseMessage: 'KALAH! Arah salah atau perubahan < 0.001% — Reset ke Step 1',
+    copySuccess: 'Smart Contract tercopy',
+    copyFailed: 'Gagal salin',
 
     perpanjangSewa: 'Perpanjang Sewa',
     sewaDitambahkan: 'Sewa ditambah {days} hari',
@@ -337,6 +341,8 @@ export const translations: Record<Language, Translations> = {
     drawMessage: 'DRAW! Price unchanged — You stay on this Step',
     winMessage: 'WIN! You got {reward} MON — Advance to next Step',
     loseMessage: 'LOSE! Wrong direction or change < 0.001% — Reset to Step 1',
+    copySuccess: 'Smart Contract copied',
+    copyFailed: 'Failed to copy',
 
     perpanjangSewa: 'Extend Rental',
     sewaDitambahkan: 'Rental extended by {days} days',

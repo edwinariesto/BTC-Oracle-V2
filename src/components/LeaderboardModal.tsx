@@ -118,7 +118,7 @@ interface Props {
 }
 
 export default function LeaderboardModal({ open, onClose }: Props) {
-  const { lang } = useLanguage()
+  const { lang, tr } = useLanguage()
 
   const [loading, setLoading] = useState(false)
   const [entries, setEntries] = useState<PlayerEntry[]>([])
@@ -609,9 +609,9 @@ export default function LeaderboardModal({ open, onClose }: Props) {
             <button
               onClick={() => {
                 navigator.clipboard.writeText(CONTRACT_ADDRESS.BTCOraclePredictorV2).then(() => {
-                  Swal.fire({ icon: 'success', title: '✅', text: 'Smart Contract tercopy', timer: 2000, showConfirmButton: false, toast: true, position: 'top' })
+                  Swal.fire({ icon: 'success', title: '✅', text: tr.copySuccess, timer: 2000, showConfirmButton: false, toast: true, position: 'top' })
                 }).catch(() => {
-                  Swal.fire({ icon: 'error', title: '❌', text: 'Gagal copy', timer: 2000, showConfirmButton: false, toast: true, position: 'top' })
+                  Swal.fire({ icon: 'error', title: '❌', text: tr.copyFailed, timer: 2000, showConfirmButton: false, toast: true, position: 'top' })
                 })
               }}
               title={lang === 'id' ? 'Salin alamat kontrak' : 'Copy contract address'}
