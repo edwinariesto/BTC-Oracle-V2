@@ -675,14 +675,14 @@ function showWinAlert(finalPrice: number, startPrice: number, reward: number, di
     title: lang === 'id' ? '🎉 KAMU MENANG!' : '🎉 YOU WON!',
     html: `<div style="font-family: monospace; text-align: left; max-width: 360px; margin: 0 auto; font-size: 13px;">
       <div style="padding: 8px; background: #f0fdf4; border-radius: 8px; margin-bottom: 6px;">
-        <div style="color: #888; font-size: 10px;">📌 TEBAKAN SAYA</div>
+        <div style="color: #888; font-size: 10px;">${lang === 'id' ? '📌 TEBAKAN SAYA' : '📌 MY PREDICTION'}</div>
         <div style="font-size: 18px; font-weight: bold; color: ${dirColor};">
           ${dirName}
         </div>
         <div style="color: #333;">$${startPrice.toLocaleString('en-US', { maximumFractionDigits: 8 })}</div>
       </div>
       <div style="padding: 8px; background: #f9fafb; border-radius: 8px; margin-bottom: 6px;">
-        <div style="color: #888; font-size: 10px;">📊 HARGA SAAT INI</div>
+        <div style="color: #888; font-size: 10px;">${lang === 'id' ? '📊 HARGA SAAT INI' : '📊 CURRENT PRICE'}</div>
         <div style="font-size: 18px; font-weight: bold; color: #1f2937;">
           $${finalPrice.toLocaleString('en-US', { maximumFractionDigits: 8 })}
         </div>
@@ -691,12 +691,12 @@ function showWinAlert(finalPrice: number, startPrice: number, reward: number, di
         </div>
       </div>
       <div style="padding: 12px; background: #dcfce7; border-radius: 8px; text-align: center; margin-top: 8px;">
-        <div style="font-size: 12px; color: #166534;">✅ Benar! +${reward.toFixed(3)} MON</div>
+        <div style="font-size: 12px; color: #166534;">${lang === 'id' ? '✅ Benar!' : '✅ Correct!'} +${reward.toFixed(3)} MON</div>
         <div style="font-size: 28px; font-weight: bold; color: #16a34a;">+${reward.toFixed(3)} MON</div>
-        <div style="font-size: 11px; color: #166534;">Tersimpan di wallet</div>
+        <div style="font-size: 11px; color: #166534;">${lang === 'id' ? 'Tersimpan di wallet' : 'Stored in wallet'}</div>
       </div>
     </div>`,
-    confirmButtonText: '🎯 Lanjut!',
+    confirmButtonText: lang === 'id' ? '🎯 Lanjut!' : '🎯 Continue!',
     confirmButtonColor: '#16a34a',
     width: '400px',
   })
@@ -711,14 +711,14 @@ function showLoseAlert(finalPrice: number, startPrice: number, direction: number
     title: lang === 'id' ? '😢 KAMU SALAH!' : '😢 WRONG PREDICTION!',
     html: `<div style="font-family: monospace; text-align: left; max-width: 360px; margin: 0 auto; font-size: 13px;">
       <div style="padding: 8px; background: #fef2f2; border-radius: 8px; margin-bottom: 6px;">
-        <div style="color: #888; font-size: 10px;">📌 TEBAKAN SAYA</div>
+        <div style="color: #888; font-size: 10px;">${lang === 'id' ? '📌 TEBAKAN SAYA' : '📌 MY PREDICTION'}</div>
         <div style="font-size: 18px; font-weight: bold; color: ${getDirectionColor(direction)};">
           ${dirName}
         </div>
         <div style="color: #333;">$${startPrice.toLocaleString('en-US', { maximumFractionDigits: 8 })}</div>
       </div>
       <div style="padding: 8px; background: #f9fafb; border-radius: 8px; margin-bottom: 6px;">
-        <div style="color: #888; font-size: 10px;">📊 HARGA SAAT INI</div>
+        <div style="color: #888; font-size: 10px;">${lang === 'id' ? '📊 HARGA SAAT INI' : '📊 CURRENT PRICE'}</div>
         <div style="font-size: 18px; font-weight: bold; color: #1f2937;">
           $${finalPrice.toLocaleString('en-US', { maximumFractionDigits: 8 })}
         </div>
@@ -727,11 +727,11 @@ function showLoseAlert(finalPrice: number, startPrice: number, direction: number
         </div>
       </div>
       <div style="padding: 12px; background: #fee2e2; border-radius: 8px; text-align: center; margin-top: 8px;">
-        <div style="font-size: 12px; color: #991b1b;">❌ Arah salah — Reset ke Step 1</div>
-        <div style="font-size: 14px; font-weight: bold; color: #991b1b; margin-top: 4px;">Coba lagi!</div>
+        <div style="font-size: 12px; color: #991b1b;">${lang === 'id' ? '❌ Arah salah — Reset ke Step 1' : '❌ Wrong direction — Reset to Step 1'}</div>
+        <div style="font-size: 14px; font-weight: bold; color: #991b1b; margin-top: 4px;">${lang === 'id' ? 'Coba lagi!' : 'Try again!'}</div>
       </div>
     </div>`,
-    confirmButtonText: '💪 Coba lagi!',
+    confirmButtonText: lang === 'id' ? '💪 Coba lagi!' : '💪 Try again!',
     confirmButtonColor: '#dc2626',
     width: '400px',
   })
@@ -745,28 +745,28 @@ function showDrawAlert(finalPrice: number, startPrice: number, direction: number
     title: lang === 'id' ? '🔄 SERI!' : '🔄 DRAW!',
     html: `<div style="font-family: monospace; text-align: left; max-width: 360px; margin: 0 auto; font-size: 13px;">
       <div style="padding: 8px; background: #fefce8; border-radius: 8px; margin-bottom: 6px;">
-        <div style="color: #888; font-size: 10px;">📌 TEBAKAN SAYA</div>
+        <div style="color: #888; font-size: 10px;">${lang === 'id' ? '📌 TEBAKAN SAYA' : '📌 MY PREDICTION'}</div>
         <div style="font-size: 18px; font-weight: bold; color: #d97706;">
-          SAMA
+          ${lang === 'id' ? 'SAMA' : 'SAME'}
         </div>
         <div style="color: #333;">$${startPrice.toLocaleString('en-US', { maximumFractionDigits: 8 })}</div>
       </div>
       <div style="padding: 8px; background: #f9fafb; border-radius: 8px; margin-bottom: 6px;">
-        <div style="color: #888; font-size: 10px;">📊 HARGA SAAT INI</div>
+        <div style="color: #888; font-size: 10px;">${lang === 'id' ? '📊 HARGA SAAT INI' : '📊 CURRENT PRICE'}</div>
         <div style="font-size: 18px; font-weight: bold; color: #1f2937;">
           $${finalPrice.toLocaleString('en-US', { maximumFractionDigits: 8 })}
         </div>
         <div style="color: ${pct >= 0 ? '#16a34a' : '#dc2626'}; font-size: 12px;">
           ${pct >= 0 ? '+' : ''}${pct.toFixed(6)}%
         </div>
-        <div style="color: #dc2626; font-size: 11px; margin-top: 4px;">⚠️ Harga BERGERAK — bukan SERI</div>
+        <div style="color: #dc2626; font-size: 11px; margin-top: 4px;">${lang === 'id' ? '⚠️ Harga BERGERAK — bukan SERI' : '⚠️ Price MOVED — not a DRAW'}</div>
       </div>
       <div style="padding: 12px; background: #fef9c3; border-radius: 8px; text-align: center; margin-top: 8px;">
-        <div style="font-size: 12px; color: #854d0e;">⚠️ Harga bergerak, bukan SERI</div>
-        <div style="font-size: 14px; font-weight: bold; color: #854d0e; margin-top: 4px;">Tidak ada reward — Tetap di step ini</div>
+        <div style="font-size: 12px; color: #854d0e;">${lang === 'id' ? '⚠️ Harga bergerak, bukan SERI' : '⚠️ Price moved, not a DRAW'}</div>
+        <div style="font-size: 14px; font-weight: bold; color: #854d0e; margin-top: 4px;">${lang === 'id' ? 'Tidak ada reward — Tetap di step ini' : 'No reward — Stay on this step'}</div>
       </div>
     </div>`,
-    confirmButtonText: '🔄 Pasang lagi!',
+    confirmButtonText: lang === 'id' ? '🔄 Pasang lagi!' : '🔄 Place bet again!',
     confirmButtonColor: '#d97706',
     width: '400px',
   })
