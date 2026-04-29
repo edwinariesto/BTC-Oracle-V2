@@ -106,7 +106,7 @@ body {
 }
 
 /* ── Content above animated background ── */
-body > *:not(.animated-bg):not(style) {
+body > *:not(.animated-bg):not(style):not(.swal2-container) {
   position: relative;
   z-index: 1;
 }
@@ -166,7 +166,12 @@ body > *:not(.animated-bg):not(style) {
 /* ── SweetAlert2 — force above RainbowKit modal (z-index: 2147483646) ── */
 div:where(.swal2-container) {
   z-index: 2147483647 !important;
+  position: fixed !important;
   pointer-events: none !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
 }
 
 div:where(.swal2-container) > .swal2-backdrop,
@@ -174,6 +179,7 @@ div:where(.swal2-container) > .swal2-modal,
 div:where(.swal2-container) > .swal2-popup,
 div:where(.swal2-container) > .swal2-toast {
   z-index: 2147483647 !important;
+  position: fixed !important;
   pointer-events: auto !important;
 }
 
