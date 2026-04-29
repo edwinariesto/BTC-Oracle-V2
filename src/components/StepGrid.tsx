@@ -8,7 +8,7 @@ interface Props {
 
 function stepLabel(secs: number): string {
   if (secs < 60) return `${secs}s`
-  if (secs < 3600) return `${Math.round(secs / 3600)}m`
+  if (secs < 3600) return `${Math.round(secs / 60)}m`
   if (secs < 86400) return `${Math.round(secs / 3600)}h`
   const days = secs / 86400
   return `${days < 7 ? days.toFixed(1) : Math.floor(days)}d`
