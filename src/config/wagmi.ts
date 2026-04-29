@@ -8,11 +8,11 @@ import { injected, coinbaseWallet, walletConnect } from 'wagmi/connectors'
 // node scripts/simple_deploy.cjs
 // ============================================================
 export const CONTRACT_ADDRESS = {
-  BTCOraclePredictorV2: '0xe7716ab22af8a82f7e2cbf52b9a986687934d911',
+  BTCOraclePredictorV2: '0x67f3ca11117f529af957d767f70802a4ea7cdb47',
 } as const
 
-// Kontrak baru: 0xe7716ab22af8a82f7e2cbf52b9a986687934d911 (deployed 2026-04-27)
-// 3 ARAH: TURUN(0), SAMA(1), NAIK(2) — SAMA dapat reward & naik step!
+// Kontrak baru: 0x67f3ca11117f529af957d767f70802a4ea7cdb47 (deployed 2026-04-29)
+// 3 ARAH: TURUN(0), SAMA(1), NAIK(2) — SAMA HARUS PERSIS SAMA (diff=0), tidak dapat reward
 // Threshold: >= 0.001% — Waiting after lose: 5 detik
 
 // Total 30 hari persis (2592000 detik):

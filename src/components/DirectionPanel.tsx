@@ -465,14 +465,16 @@ function BetActiveView({
 
       console.log(`[resolveBet] ✅ CONFIRMED — start=${startPriceStored}, curr=${currPrice}, diff=${diff}, percent=${percent}`)
 
-      // Tentukan hasil: NAIK, TURUN, SAMA, atau SALAH
+      // Tentukan hasil: NAIK, TURUN, SAMA, atau SERI
       let won = false
-      if (betDir === DIR.NAIK) {
+      let isDraw = false
+      if (betDir === DIR.SAMA) {
+        won = diff === 0
+        isDraw = !won
+      } else if (betDir === DIR.NAIK) {
         won = currPrice > startPriceStored && priceMoved
-      } else if (betDir === DIR.TURUN) {
-        won = currPrice < startPriceStored && priceMoved
       } else {
-        won = !priceMoved  // SAMA menang jika harga diam < 0.001%
+        won = currPrice < startPriceStored && priceMoved
       }
 
       if (won) {
@@ -481,6 +483,12 @@ function BetActiveView({
         setRewardWon(wonReward)
         showWinAlert(currPrice / 1e8, startPriceNum, wonReward, betDir, lang)
         onResultRef.current?.('won')
+      } else if (isDraw) {
+        // SERI — SAMA dipilih tapi harga bergerak, tidak reward, tetap step
+        setResultState('draw')
+        setRewardWon(0)
+        showDrawAlert(currPrice / 1e8, startPriceNum, betDir, lang)
+        onResultRef.current?.('draw')
       } else {
         setResultState('lost')
         setRewardWon(0)
@@ -627,10 +635,16 @@ function BetActiveView({
         </div>
       ) : (
         <div className={`text-center py-3 rounded-xl font-mono text-sm font-bold ${
-          resultState === 'won' ? 'bg-green-50 border border-green-300 text-green-700' : 'bg-red-50 border border-red-300 text-red-700'
+          resultState === 'won'
+            ? 'bg-green-50 border border-green-300 text-green-700'
+            : resultState === 'draw'
+            ? 'bg-yellow-50 border border-yellow-300 text-yellow-700'
+            : 'bg-red-50 border border-red-300 text-red-700'
         }`}>
           {resultState === 'won'
             ? `🎉 ${lang === 'id' ? `MENANG! +${rewardWon.toFixed(4)} MON` : `WON! +${rewardWon.toFixed(4)} MON`}`
+            : resultState === 'draw'
+            ? `🔄 ${lang === 'id' ? 'SERI — Harga bergerak, tetap di step ini' : 'DRAW — Price moved, stay on this step'}`
             : `❌ ${lang === 'id' ? 'SALAH — Reset ke Step 1' : 'WRONG — Reset to Step 1'}`}
           <div className="text-xs mt-1 opacity-70">{lang === 'id' ? 'Tunggu data refresh...' : 'Waiting for refresh...'}</div>
         </div>
@@ -719,6 +733,41 @@ function showLoseAlert(finalPrice: number, startPrice: number, direction: number
     </div>`,
     confirmButtonText: '💪 Coba lagi!',
     confirmButtonColor: '#dc2626',
+    width: '400px',
+  })
+}
+
+function showDrawAlert(finalPrice: number, startPrice: number, direction: number, lang: string) {
+  const pct = ((finalPrice - startPrice) / startPrice) * 100
+
+  Swal.fire({
+    icon: 'info',
+    title: lang === 'id' ? '🔄 SERI!' : '🔄 DRAW!',
+    html: `<div style="font-family: monospace; text-align: left; max-width: 360px; margin: 0 auto; font-size: 13px;">
+      <div style="padding: 8px; background: #fefce8; border-radius: 8px; margin-bottom: 6px;">
+        <div style="color: #888; font-size: 10px;">📌 TEBAKAN SAYA</div>
+        <div style="font-size: 18px; font-weight: bold; color: #d97706;">
+          SAMA
+        </div>
+        <div style="color: #333;">$${startPrice.toLocaleString('en-US', { maximumFractionDigits: 8 })}</div>
+      </div>
+      <div style="padding: 8px; background: #f9fafb; border-radius: 8px; margin-bottom: 6px;">
+        <div style="color: #888; font-size: 10px;">📊 HARGA SAAT INI</div>
+        <div style="font-size: 18px; font-weight: bold; color: #1f2937;">
+          $${finalPrice.toLocaleString('en-US', { maximumFractionDigits: 8 })}
+        </div>
+        <div style="color: ${pct >= 0 ? '#16a34a' : '#dc2626'}; font-size: 12px;">
+          ${pct >= 0 ? '+' : ''}${pct.toFixed(6)}%
+        </div>
+        <div style="color: #dc2626; font-size: 11px; margin-top: 4px;">⚠️ Harga BERGERAK — bukan SERI</div>
+      </div>
+      <div style="padding: 12px; background: #fef9c3; border-radius: 8px; text-align: center; margin-top: 8px;">
+        <div style="font-size: 12px; color: #854d0e;">⚠️ Harga bergerak, bukan SERI</div>
+        <div style="font-size: 14px; font-weight: bold; color: #854d0e; margin-top: 4px;">Tidak ada reward — Tetap di step ini</div>
+      </div>
+    </div>`,
+    confirmButtonText: '🔄 Pasang lagi!',
+    confirmButtonColor: '#d97706',
     width: '400px',
   })
 }

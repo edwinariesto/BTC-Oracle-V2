@@ -169,16 +169,18 @@ contract BTCOraclePredictorV2 {
 
         int8 betDir = p.betDirection;
         bool won = false;
+        bool isDraw = false;
 
-        if (betDir == DIR_NAIK) {
+        if (betDir == DIR_SAMA) {
+            // SAMA menang jika harga PERSIS SAMA (diff = 0) — tidak dapat reward, tetap step
+            won = diff == 0;
+            isDraw = !won;
+        } else if (betDir == DIR_NAIK) {
             // NAIK menang jika harga naik >= 0.001%
             won = currentPrice > p.betStartPrice && priceMoved;
-        } else if (betDir == DIR_TURUN) {
+        } else {
             // TURUN menang jika harga turun >= 0.001%
             won = currentPrice < p.betStartPrice && priceMoved;
-        } else {
-            // SAMA menang jika perubahan < 0.001% (harga diam)
-            won = !priceMoved;
         }
 
         if (won) {
@@ -200,6 +202,10 @@ contract BTCOraclePredictorV2 {
                 p.currentStep = step + 1;
                 emit StepAdvanced(msg.sender, step + 2, rewardWei);
             }
+        } else if (isDraw) {
+            // SERI (SAMA dipilih tapi harga bergerak) — tidak reward, TIDAK reset, tetap di step ini
+            p.currentStep = p.currentStep; // tetap
+            emit BetLost(msg.sender, p.currentStep + 1, betDir); // gunakan BetLost utk tracking saja
         } else {
             // KALAH: arah salah → reset step 1
             p.currentStep = 0;
