@@ -44,7 +44,7 @@ body {
 .btc-coin::after {
   content: '₿';
   color: #7b2d00;
-  font-size: 40%;
+  font-size: 65%;
   font-weight: 900;
   font-family: serif;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
