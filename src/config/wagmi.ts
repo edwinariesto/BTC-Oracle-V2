@@ -8,10 +8,13 @@ import { injected, coinbaseWallet, walletConnect } from 'wagmi/connectors'
 // node scripts/simple_deploy.cjs
 // ============================================================
 export const CONTRACT_ADDRESS = {
-  BTCOraclePredictorV2: '0x67f3ca11117f529af957d767f70802a4ea7cdb47',
+  BTCOraclePredictorV2: '0x70709b7ab153d9a6501fc43871bd739df987f591',
 } as const
 
-// Kontrak baru: 0x67f3ca11117f529af957d767f70802a4ea7cdb47 (deployed 2026-04-29)
+// Kontrak baru: 0x70709b7ab153d9a6501fc43871bd739df987f591 (deployed 2026-04-29)
+// ⚠️ REWARD BARU: Geometric r=2, a0=0.0001 MON — total 0.1023 MON
+// STEP1=0.0001, STEP2=0.0002, STEP3=0.0004, STEP4=0.0008, STEP5=0.0016
+// STEP6=0.0032, STEP7=0.0064, STEP8=0.0128, STEP9=0.0256, STEP10=0.0512
 // 3 ARAH: TURUN(0), SAMA(1), NAIK(2) — SAMA HARUS PERSIS SAMA (diff=0), tidak dapat reward
 // Threshold: >= 0.001% — Waiting after lose: 5 detik
 
@@ -19,11 +22,22 @@ export const CONTRACT_ADDRESS = {
 // Step1=30s, Step2=1m, Step3=5m, Step4=30m, Step5=2h, Step6=10h,
 // Step7=2d, Step8=6d, Step9=10d, Step10=11.47d
 export const STEP_DURATIONS = [30, 60, 300, 1800, 7200, 36000, 172800, 518400, 864000, 985410] as const
+
+// Geometric progression: r=2, a0=0.0001 MON
+// Total: 0.1023 MON (1023% of 0.01 MON rental fee)
+// Step1=0.0001, Step2=0.0002, Step3=0.0004, Step4=0.0008, Step5=0.0016
+// Step6=0.0032, Step7=0.0064, Step8=0.0128, Step9=0.0256, Step10=0.0512
 export const STEP_REWARDS_WEI = [
-    500000000000000n, 500000000000000n, 500000000000000n,
-    500000000000000n, 500000000000000n, 500000000000000n,
-    500000000000000n, 500000000000000n, 500000000000000n,
-    500000000000000n,
+    100000000000000n,    // 0.0001 MON
+    200000000000000n,    // 0.0002 MON
+    400000000000000n,    // 0.0004 MON
+    800000000000000n,    // 0.0008 MON
+    1600000000000000n,   // 0.0016 MON
+    3200000000000000n,   // 0.0032 MON
+    6400000000000000n,   // 0.0064 MON
+    12800000000000000n,  // 0.0128 MON
+    25600000000000000n,  // 0.0256 MON
+    51200000000000000n,  // 0.0512 MON
 ] as const
 
 // ============================================================

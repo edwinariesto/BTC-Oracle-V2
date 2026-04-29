@@ -31,7 +31,8 @@ const STEP_LABELS_EN = [
   'Step 4 · 30 min', 'Step 5 · 2 hrs', 'Step 6 · 10 hrs',
   'Step 7 · 2 days', 'Step 8 · 6 days', 'Step 9 · 10 days', 'Step 10 · 11.5 days',
 ]
-const STEP_REWARDS_MON = [0.0005, 0.0005, 0.0005, 0.0005, 0.0005, 0.0005, 0.0005, 0.0005, 0.0005, 0.0005]
+// Geometric: r=2, a0=0.0001 MON — total 0.1023 MON (10x rental fee = 900% return)
+const STEP_REWARDS_MON = [0.0001, 0.0002, 0.0004, 0.0008, 0.0016, 0.0032, 0.0064, 0.0128, 0.0256, 0.0512]
 
 type BetPhase = 'idle' | 'confirming' | 'pending' | 'betActive'
 
