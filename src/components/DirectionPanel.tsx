@@ -612,7 +612,7 @@ function BetActiveView({
           <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-purple-500 to-violet-400 rounded-full transition-all duration-1000"
-              style={{ width: `${Math.max(0, Math.min(100, (1 - remaining / totalDuration) * 100))}%` }}
+              style={{ width: `${Math.max(0, Math.min(100, (1 - remaining / (nextDuration || 1)) * 100))}%` }}
             />
           </div>
           {/* Status text */}
