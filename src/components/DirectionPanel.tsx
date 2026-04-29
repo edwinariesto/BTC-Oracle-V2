@@ -358,7 +358,14 @@ function BetActiveView({
   const { data: block } = useBlock({ blockTag: 'latest', query: { refetchInterval: 1000 } })
   const blockchainOffset = useRef<number | null>(null)
 
-  const [remaining, setRemaining] = useState(0)
+  // Initialize remaining immediately using browser time (close enough for step > 1)
+  // Will correct to blockchain time once offset is computed
+  const [remaining, setRemaining] = useState(() => {
+    if (endTime > 0) {
+      return Math.max(0, endTime - Math.floor(Date.now() / 1000))
+    }
+    return 0
+  })
   const [currentPriceNow, setCurrentPriceNow] = useState(0)
   const [resultState, setResultState] = useState<'pending' | 'checking' | 'won' | 'lost'>('pending')
   const [finalPrice, setFinalPrice] = useState(0)
