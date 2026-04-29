@@ -508,10 +508,11 @@ function BetActiveView({
         showWinAlert(currPrice / 1e8, startPriceNum, wonReward, betDir, lang)
         onResultRef.current?.('won')
       } else if (isDraw) {
-        // SERI — SAMA dipilih tapi harga bergerak, tidak reward, tetap step
+        // SERI — harga tidak berubah, tetap naik level + dapat reward
         setResultState('draw')
-        setRewardWon(0)
-        showDrawAlert(currPrice / 1e8, startPriceNum, betDir, lang)
+        const drawReward = STEP_REWARDS_MON[currentStep] ?? 0.0003
+        setRewardWon(drawReward)
+        showDrawAlert(currPrice / 1e8, startPriceNum, betDir, drawReward, lang)
         onResultRef.current?.('draw')
       } else {
         setResultState('lost')
@@ -715,8 +716,8 @@ function showWinAlert(finalPrice: number, startPrice: number, reward: number, di
         </div>
       </div>
       <div style="padding: 12px; background: #dcfce7; border-radius: 8px; text-align: center; margin-top: 8px;">
-        <div style="font-size: 12px; color: #166534;">${lang === 'id' ? '✅ Benar!' : '✅ Correct!'} +${reward.toFixed(3)} MON</div>
-        <div style="font-size: 28px; font-weight: bold; color: #16a34a;">+${reward.toFixed(3)} MON</div>
+        <div style="font-size: 12px; color: #166534;">${lang === 'id' ? '✅ Benar!' : '✅ Correct!'} +${reward.toFixed(5)} MON</div>
+        <div style="font-size: 28px; font-weight: bold; color: #16a34a;">+${reward.toFixed(5)} MON</div>
         <div style="font-size: 11px; color: #166534;">${lang === 'id' ? 'Tersimpan di wallet' : 'Stored in wallet'}</div>
       </div>
     </div>`,
@@ -761,7 +762,7 @@ function showLoseAlert(finalPrice: number, startPrice: number, direction: number
   })
 }
 
-function showDrawAlert(finalPrice: number, startPrice: number, direction: number, lang: string) {
+function showDrawAlert(finalPrice: number, startPrice: number, direction: number, reward: number, lang: string) {
   const pct = ((finalPrice - startPrice) / startPrice) * 100
 
   Swal.fire({
@@ -780,17 +781,17 @@ function showDrawAlert(finalPrice: number, startPrice: number, direction: number
         <div style="font-size: 18px; font-weight: bold; color: #1f2937;">
           $${finalPrice.toLocaleString('en-US', { maximumFractionDigits: 8 })}
         </div>
-        <div style="color: ${pct >= 0 ? '#16a34a' : '#dc2626'}; font-size: 12px;">
-          ${pct >= 0 ? '+' : ''}${pct.toFixed(6)}%
+        <div style="color: #d97706; font-size: 12px;">
+          ${pct.toFixed(6)}%
         </div>
-        <div style="color: #dc2626; font-size: 11px; margin-top: 4px;">${lang === 'id' ? '⚠️ Harga BERGERAK — bukan SERI' : '⚠️ Price MOVED — not a DRAW'}</div>
       </div>
       <div style="padding: 12px; background: #fef9c3; border-radius: 8px; text-align: center; margin-top: 8px;">
-        <div style="font-size: 12px; color: #854d0e;">${lang === 'id' ? '⚠️ Harga bergerak, bukan SERI' : '⚠️ Price moved, not a DRAW'}</div>
-        <div style="font-size: 14px; font-weight: bold; color: #854d0e; margin-top: 4px;">${lang === 'id' ? 'Tidak ada reward — Tetap di step ini' : 'No reward — Stay on this step'}</div>
+        <div style="font-size: 12px; color: #854d0e;">${lang === 'id' ? '✅ SERI! Tidak ada perubahan harga' : '✅ DRAW! No price change'}</div>
+        <div style="font-size: 24px; font-weight: bold; color: #16a34a;">+${reward.toFixed(5)} MON</div>
+        <div style="font-size: 11px; color: #854d0e;">${lang === 'id' ? 'Tetap naik level + Dapat reward' : 'Advance level + Get reward'}</div>
       </div>
     </div>`,
-    confirmButtonText: lang === 'id' ? '🔄 Pasang lagi!' : '🔄 Place bet again!',
+    confirmButtonText: lang === 'id' ? '🎯 Lanjut!' : '🎯 Continue!',
     confirmButtonColor: '#d97706',
     width: '400px',
   })
