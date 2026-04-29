@@ -8,36 +8,37 @@ import { injected, coinbaseWallet, walletConnect } from 'wagmi/connectors'
 // node scripts/simple_deploy.cjs
 // ============================================================
 export const CONTRACT_ADDRESS = {
-  BTCOraclePredictorV2: '0x70709b7ab153d9a6501fc43871bd739df987f591',
+  BTCOraclePredictorV2: '0xcad0a9f3fadf17d42b0aa01c165b600484171c31',
 } as const
 
-// Kontrak baru: 0x70709b7ab153d9a6501fc43871bd739df987f591 (deployed 2026-04-29)
-// ⚠️ REWARD BARU: Geometric r=2, a0=0.0001 MON — total 0.1023 MON
-// STEP1=0.0001, STEP2=0.0002, STEP3=0.0004, STEP4=0.0008, STEP5=0.0016
-// STEP6=0.0032, STEP7=0.0064, STEP8=0.0128, STEP9=0.0256, STEP10=0.0512
+// Kontrak baru: 0xcad0a9f3fadf17d42b0aa01c165b600484171c31 (deployed 2026-04-29)
+// ⚠️ RENTAL FEE: 0.10 MON — SEWA = 0.10 MON per 30 hari
+// ⚠️ REWARD Geometric r=2, a0=0.0003 MON — total 0.1539 MON (153.9% profit dari 0.10 MON)
+// STEP1=0.0003, STEP2=0.0006, STEP3=0.0012, STEP4=0.0024, STEP5=0.0048
+// STEP6=0.0096, STEP7=0.0192, STEP8=0.0384, STEP9=0.0768, STEP10=0.1536
 // 3 ARAH: TURUN(0), SAMA(1), NAIK(2) — SAMA HARUS PERSIS SAMA (diff=0), tidak dapat reward
-// Threshold: >= 0.001% — Waiting after lose: 5 detik
+// Threshold: >= 0.001%
 
 // Total 30 hari persis (2592000 detik):
 // Step1=30s, Step2=1m, Step3=5m, Step4=30m, Step5=2h, Step6=10h,
 // Step7=2d, Step8=6d, Step9=10d, Step10=11.47d
 export const STEP_DURATIONS = [30, 60, 300, 1800, 7200, 36000, 172800, 518400, 864000, 985410] as const
 
-// Geometric progression: r=2, a0=0.0001 MON
-// Total: 0.1023 MON (1023% of 0.01 MON rental fee)
-// Step1=0.0001, Step2=0.0002, Step3=0.0004, Step4=0.0008, Step5=0.0016
-// Step6=0.0032, Step7=0.0064, Step8=0.0128, Step9=0.0256, Step10=0.0512
+// Geometric progression: r=2, a0=0.0003 MON
+// Total: 0.1539 MON (153.9% of 0.10 MON rental)
+// Step1=0.0003, Step2=0.0006, Step3=0.0012, Step4=0.0024, Step5=0.0048
+// Step6=0.0096, Step7=0.0192, Step8=0.0384, Step9=0.0768, Step10=0.1536
 export const STEP_REWARDS_WEI = [
-    100000000000000n,    // 0.0001 MON
-    200000000000000n,    // 0.0002 MON
-    400000000000000n,    // 0.0004 MON
-    800000000000000n,    // 0.0008 MON
-    1600000000000000n,   // 0.0016 MON
-    3200000000000000n,   // 0.0032 MON
-    6400000000000000n,   // 0.0064 MON
-    12800000000000000n,  // 0.0128 MON
-    25600000000000000n,  // 0.0256 MON
-    51200000000000000n,  // 0.0512 MON
+    300000000000000n,    // 0.0003 MON
+    600000000000000n,    // 0.0006 MON
+   1200000000000000n,    // 0.0012 MON
+   2400000000000000n,    // 0.0024 MON
+   4800000000000000n,    // 0.0048 MON
+   9600000000000000n,    // 0.0096 MON
+  19200000000000000n,    // 0.0192 MON
+  38400000000000000n,    // 0.0384 MON
+  76800000000000000n,    // 0.0768 MON
+ 153600000000000000n,    // 0.1536 MON
 ] as const
 
 // ============================================================
@@ -49,7 +50,7 @@ export const DIR = {
   NAIK:  2,  // harga naik >= 0.001%
 } as const
 
-export const RENTAL_FEE_WEI = BigInt('10000000000000000')
+export const RENTAL_FEE_WEI = BigInt('100000000000000000')
 export const DAYS_TO_SECS = 86400
 
 // ============================================================
