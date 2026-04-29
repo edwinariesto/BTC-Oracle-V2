@@ -31,8 +31,8 @@ const STEP_LABELS_EN = [
   'Step 4 · 30 min', 'Step 5 · 2 hrs', 'Step 6 · 10 hrs',
   'Step 7 · 2 days', 'Step 8 · 6 days', 'Step 9 · 10 days', 'Step 10 · 11.5 days',
 ]
-// Geometric: r=2, a0=0.0001 MON — total 0.1023 MON (10x rental fee = 900% return)
-const STEP_REWARDS_MON = [0.0001, 0.0002, 0.0004, 0.0008, 0.0016, 0.0032, 0.0064, 0.0128, 0.0256, 0.0512]
+// Geometric: r=2, a0=0.0003 MON — total 0.1539 MON (50% profit of 0.10 MON rental)
+const STEP_REWARDS_MON = [0.0003, 0.0006, 0.0012, 0.0024, 0.0048, 0.0096, 0.0192, 0.0384, 0.0768, 0.1536]
 
 type BetPhase = 'idle' | 'confirming' | 'pending' | 'betActive'
 
@@ -140,7 +140,7 @@ export default function DirectionPanel({
             ⏳ {lang === 'id' ? 'Menyimpan...' : 'Storing...'}
           </div>
           <div className="font-mono text-2xl font-bold text-green-400">
-            {STEP_REWARDS_MON[currentStep]?.toFixed(4) ?? '0.0005'} MON
+            {STEP_REWARDS_MON[currentStep]?.toFixed(5) ?? '0.00030'} MON
           </div>
         </div>
         <div className="text-center bg-slate-800 border border-slate-700 rounded-lg p-3">
@@ -171,7 +171,7 @@ export default function DirectionPanel({
             ⏳ {lang === 'id' ? 'Menunggu MetaMask...' : 'Waiting for MetaMask...'}
           </div>
           <div className="font-mono text-2xl font-bold text-green-400">
-            {STEP_REWARDS_MON[currentStep]?.toFixed(4) ?? '0.0005'} MON
+            {STEP_REWARDS_MON[currentStep]?.toFixed(5) ?? '0.00030'} MON
           </div>
         </div>
         <div className="text-center bg-slate-800 border border-slate-700 rounded-lg p-3">
@@ -194,7 +194,7 @@ export default function DirectionPanel({
 
   const stepLabels = lang === 'id' ? STEP_LABELS_ID : STEP_LABELS_EN
   const stepLabel = stepLabels[currentStep] ?? STEP_LABELS_ID[0]
-  const rewardMON = STEP_REWARDS_MON[currentStep]?.toFixed(3) ?? '0.101'
+  const rewardMON = STEP_REWARDS_MON[currentStep]?.toFixed(5) ?? '0.00030'
 
   function handlePlaceBet() {
     if (txInFlight) return
@@ -432,7 +432,7 @@ function BetActiveView({
 
   const stepLabels = lang === 'id' ? STEP_LABELS_ID : STEP_LABELS_EN
   const stepLabel = stepLabels[currentStep] ?? STEP_LABELS_ID[0]
-  const rewardMON = STEP_REWARDS_MON[currentStep]?.toFixed(4) ?? '0.0005'
+  const rewardMON = STEP_REWARDS_MON[currentStep]?.toFixed(5) ?? '0.00030'
   const startPriceNum = startPrice / 1e8
 
   const isExpired = remaining === 0
@@ -666,7 +666,7 @@ function BetActiveView({
             : 'bg-red-50 border border-red-300 text-red-700'
         }`}>
           {resultState === 'won'
-            ? `🎉 ${lang === 'id' ? `MENANG! +${rewardWon.toFixed(4)} MON` : `WON! +${rewardWon.toFixed(4)} MON`}`
+            ? `🎉 ${lang === 'id' ? `MENANG! +${rewardWon.toFixed(5)} MON` : `WON! +${rewardWon.toFixed(5)} MON`}`
             : resultState === 'draw'
             ? `🔄 ${lang === 'id' ? 'SERI — Harga bergerak, tetap di step ini' : 'DRAW — Price moved, stay on this step'}`
             : `❌ ${lang === 'id' ? 'SALAH — Reset ke Step 1' : 'WRONG — Reset to Step 1'}`}
