@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { useWriteContract, useWaitForTransactionReceipt, useBlock } from 'wagmi'
 import { CONTRACT_ADDRESS, PREDICTOR_ABI, DIR } from '@/config/wagmi'
 import { useLanguage, usePriceData } from '@/hooks/useGameData'
 import { formatDuration } from '@/i18n'
@@ -353,12 +353,12 @@ function BetActiveView({
   const prices = usePriceData()
   const { writeContract, data: resolveHash, isPending: isResolvePending } = useWriteContract()
   const { isLoading: isResolving, isSuccess: isResolveConfirmed } = useWaitForTransactionReceipt({ hash: resolveHash })
-  const [remaining, setRemaining] = useState(() => {
-    if (endTime > 0) {
-      return Math.max(0, endTime - Math.floor(Date.now() / 1000))
-    }
-    return 0
-  })
+
+  // ── Blockchain time: use latest block timestamp for consistent countdown ──
+  const { data: block } = useBlock({ blockTag: 'latest', query: { refetchInterval: 1000 } })
+  const blockchainOffset = useRef<number | null>(null)
+
+  const [remaining, setRemaining] = useState(0)
   const [currentPriceNow, setCurrentPriceNow] = useState(0)
   const [resultState, setResultState] = useState<'pending' | 'checking' | 'won' | 'lost'>('pending')
   const [finalPrice, setFinalPrice] = useState(0)
@@ -374,13 +374,21 @@ function BetActiveView({
   const initDone = useRef(false)
   useEffect(() => { onResultRef.current = onResult }, [onResult])
 
-  // ── Countdown timer
+  // ── Countdown timer (uses blockchain time) ──
   useEffect(() => {
     initDone.current = false
     setCountdownFrozen(null)
     remainingAtExpired.current = null
 
-    const initial = Math.max(0, endTime - Math.floor(Date.now() / 1000))
+    const getNow = (): number => {
+      const local = Math.floor(Date.now() / 1000)
+      if (blockchainOffset.current !== null) {
+        return local - blockchainOffset.current
+      }
+      return local
+    }
+
+    const initial = Math.max(0, endTime - getNow())
     setRemaining(initial)
     if (initial === 0) {
       remainingAtExpired.current = 0
@@ -389,7 +397,7 @@ function BetActiveView({
     initDone.current = true
 
     const tick = () => {
-      const now = Math.floor(Date.now() / 1000)
+      const now = getNow()
       const diff = Math.max(0, endTime - now)
       setRemaining(diff)
       if (diff === 0 && remainingAtExpired.current === null) {
@@ -400,6 +408,14 @@ function BetActiveView({
     const interval = setInterval(tick, 1000)
     return () => clearInterval(interval)
   }, [endTime])
+
+  // ── Sync blockchain clock offset ──
+  useEffect(() => {
+    if (!block?.timestamp) return
+    const blockchainSec = Number(block.timestamp) // BigInt → number (seconds)
+    const localSec = Math.floor(Date.now() / 1000)
+    blockchainOffset.current = localSec - blockchainSec
+  }, [block])
 
   // ── Real-time BTC price
   useEffect(() => {
