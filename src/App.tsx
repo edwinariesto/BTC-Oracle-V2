@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import { useAccount, useBalance, useReadContract, useConnect } from 'wagmi'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { useAccount, useBalance, useReadContract } from 'wagmi'
+import { useConnectModal, useAccountModal } from '@rainbow-me/rainbowkit'
 import Swal from 'sweetalert2'
 import { CONTRACT_ADDRESS, PREDICTOR_ABI, STEP_DURATIONS, STEP_REWARDS_WEI, DIR } from '@/config/wagmi'
 import { useLanguage, usePriceData, isPriceValid } from '@/hooks/useGameData'
@@ -17,6 +17,45 @@ import LeaderboardModal from '@/components/LeaderboardModal'
 import btcLogo from '@/images/btc-logo.png'
 import indonesiaLogo from '@/images/england-logo.svg'
 import englandLogo from '@/images/indonesia-logo.svg'
+
+// ── Custom Connect Button (fully controlled for i18n support) ──
+function CustomConnectBtn({ label, connectedLabel }: { label: string; connectedLabel: string }) {
+  const { address, isConnected } = useAccount()
+  const { openConnectModal } = useConnectModal()
+  const { openAccountModal } = useAccountModal()
+
+  const handleClick = () => {
+    if (isConnected) {
+      openAccountModal?.()
+    } else {
+      openConnectModal?.()
+    }
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      className="flex items-center gap-2 px-3 py-1.5 rounded-lg font-sans text-sm font-medium bg-white/10 border border-white/20 hover:bg-white/20 hover:border-white/30 active:scale-95 transition-all text-white cursor-pointer"
+      type="button"
+    >
+      {isConnected ? (
+        <>
+          <span className="hidden sm:block font-mono text-xs">
+            {address ? `${address.slice(0, 6)}…${address.slice(-4)}` : connectedLabel}
+          </span>
+          <span className="sm:hidden font-mono text-xs">
+            {address ? `${address.slice(0, 4)}…${address.slice(-2)}` : connectedLabel}
+          </span>
+          <svg className="w-3 h-3 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </>
+      ) : (
+        <span className="font-mono text-xs">{label}</span>
+      )}
+    </button>
+  )
+}
 
 // ── Animated Background ───────────────────────────────────────
 function AnimatedBackground() {
@@ -368,7 +407,7 @@ export default function App() {
               <div className="px-2.5 py-1.5 bg-white/5 border border-slate-700 rounded-lg font-mono text-xs text-white/40 cursor-not-allowed">
                 🏆 {lang === 'id' ? 'Skor' : 'Score'}
               </div>
-              <ConnectButton key={lang} showBalance={false} chainStatus="icon" accountStatus="address" label={tr.btnHubungkan} />
+              <CustomConnectBtn label={tr.btnHubungkan} connectedLabel={tr.btnTerhubung} />
             </div>
           </div>
         </header>
@@ -429,7 +468,7 @@ export default function App() {
             <div className="text-2xl font-bold text-white mb-3">{tr.hubungkanWallet}</div>
             <div className="text-sm text-slate-400 font-mono mb-8">{tr.untukMulai}</div>
             <div className="rainbowkit-button-bg flex justify-center">
-              <ConnectButton key={lang} label={tr.btnHubungkan} />
+              <CustomConnectBtn label={tr.btnHubungkan} connectedLabel={tr.btnTerhubung} />
             </div>
           </div>
         </main>
@@ -466,7 +505,7 @@ export default function App() {
             <button onClick={() => setShowLeaderboard(true)} className="px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-lg font-mono text-xs font-bold text-white/70 hover:bg-white/20">
               🏆 {lang === 'id' ? 'Skor' : 'Score'}
             </button>
-            <ConnectButton key={lang} showBalance={false} chainStatus="icon" accountStatus="address" label={isConnected ? tr.btnTerhubung : tr.btnHubungkan} />
+            <CustomConnectBtn label={tr.btnHubungkan} connectedLabel={tr.btnTerhubung} />
           </div>
         </div>
       </header>
