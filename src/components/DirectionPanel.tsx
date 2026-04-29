@@ -605,40 +605,26 @@ function BetActiveView({
         </div>
       </div>
 
-      {/* Action button */}
+      {/* Action button — auto-resolve when expired */}
       {resultState === 'pending' || resultState === 'checking' ? (
-        <button
-          onClick={() => {
-            if (resolveInFlight.current || isResolvePending || !prices.btcPrice) return
-            resolveInFlight.current = true
-            const currentPrice = Math.round(prices.btcPrice * 1e8)
-            setResultState('checking')
-            setCountdownFrozen(remaining)
-            console.log(`[resolveBet] 🚀 TX (manual) — price=${currentPrice}`)
-            writeContract({
-              address: CONTRACT_ADDRESS.BTCOraclePredictorV2,
-              abi: PREDICTOR_ABI,
-              functionName: 'resolveBet',
-              args: [BigInt(currentPrice)],
-              gas: 500000n,
-            })
-          }}
-          disabled={isResolvePending || !prices.btcPrice}
-          className={`w-full py-4 font-bold font-mono rounded-xl text-xl transition-all ${
-            direction === DIR.NAIK
-              ? 'bg-green-500 hover:bg-green-600 text-white disabled:opacity-40'
-              : direction === DIR.TURUN
-              ? 'bg-red-500 hover:bg-red-600 text-white disabled:opacity-40'
-              : 'bg-yellow-500 hover:bg-yellow-600 text-white disabled:opacity-40'
-          }`}
-        >
-          {isResolvePending || resultState === 'checking'
-            ? `⏳ ${lang === 'id' ? 'Memproses...' : 'Processing...'}`
-            : isExpired
-            ? `✅ ${lang === 'id' ? 'CEK HASIL' : 'CHECK RESULT'}`
-            : `⏳ ${lang === 'id' ? 'TUNGGU WAKTU' : 'WAIT TIME'}`
-          }
-        </button>
+        <div className="space-y-2">
+          {/* Progress bar */}
+          <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-purple-500 to-violet-400 rounded-full transition-all duration-1000"
+              style={{ width: `${Math.max(0, Math.min(100, (1 - remaining / totalDuration) * 100))}%` }}
+            />
+          </div>
+          {/* Status text */}
+          <div className="text-center font-mono text-sm font-bold text-slate-600">
+            {isResolvePending || resultState === 'checking'
+              ? `⏳ ${lang === 'id' ? 'Memproses secara otomatis...' : 'Auto-processing...'}`
+              : isExpired
+              ? `✅ ${lang === 'id' ? 'OTOMATIS CHECK — MOHON TUNGGU' : 'AUTO CHECKING — PLEASE WAIT'}`
+              : `⏳ ${lang === 'id' ? 'SEDANG DIHITUNG...' : 'COUNTING...'}`
+            }
+          </div>
+        </div>
       ) : (
         <div className={`text-center py-3 rounded-xl font-mono text-sm font-bold ${
           resultState === 'won' ? 'bg-green-50 border border-green-300 text-green-700' : 'bg-red-50 border border-red-300 text-red-700'
