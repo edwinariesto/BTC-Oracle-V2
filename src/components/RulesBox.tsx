@@ -1,19 +1,5 @@
 import { useLanguage } from '@/hooks/useGameData'
-import { STEP_DURATIONS, STEP_REWARDS_WEI } from '@/config/wagmi'
-import { formatDuration } from '@/i18n'
-
-const STEP_DETAIL = [
-  { n: 1, d: '30s', r: 0.0005 },
-  { n: 2, d: '1m',  r: 0.0005 },
-  { n: 3, d: '5m',  r: 0.0005 },
-  { n: 4, d: '30m', r: 0.0005 },
-  { n: 5, d: '2h',  r: 0.0005 },
-  { n: 6, d: '10h', r: 0.0005 },
-  { n: 7, d: '2d',  r: 0.0005 },
-  { n: 8, d: '6d',  r: 0.0005 },
-  { n: 9, d: '10d', r: 0.0005 },
-  { n: 10, d: '11.5d', r: 0.0005 },
-]
+import { STEP_REWARDS_WEI } from '@/config/wagmi'
 
 function RewardBadge({ mon }: { mon: number }) {
   return (
@@ -44,48 +30,13 @@ export default function RulesBox() {
         </div>
         <div className="text-sm font-mono text-white/80">
           {lang === 'id'
-            ? 'Deposit 0.01 MON → 30 hari bermain'
-            : 'Deposit 0.01 MON → 30 days play'}
+            ? 'Deposit 0.10 MON → 30 hari bermain'
+            : 'Deposit 0.10 MON → 30 days play'}
         </div>
         <div className="text-xs font-mono text-slate-400">
           {lang === 'id'
             ? 'Biaya sewa langsung ke owner wallet'
             : 'Rental fee goes directly to owner wallet'}
-        </div>
-      </div>
-
-      {/* ── 10 STEP LADDER ── */}
-      <div className="bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-3">
-        <div className="text-xs font-mono font-bold text-white/60 uppercase tracking-wider">
-          📊 10-Step Reward Ladder
-        </div>
-
-        {/* Step grid */}
-        <div className="grid grid-cols-10 gap-1">
-          {STEP_DETAIL.map(s => (
-            <div key={s.n} className="flex flex-col items-center">
-              <div className="w-full aspect-square rounded-full bg-slate-800 border border-slate-700 flex flex-col items-center justify-center font-mono gap-0.5">
-                <div className="text-sm font-bold text-white leading-none">{s.n}</div>
-                <div className="text-[7px] text-green-400 leading-none">+{s.r}</div>
-              </div>
-              <div className="font-mono text-[8px] text-slate-500 mt-0.5">{s.d}</div>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-xs font-mono text-slate-300 leading-relaxed">
-          {lang === 'id'
-            ? 'Step 1 (30s) → Step 10 (11.5d). Setiap step menang dapat '
-            : 'Step 1 (30s) → Step 10 (11.5d). Each win grants '}
-          <span className="text-green-400 font-bold">{Number(STEP_REWARDS_WEI[0]) / 1e18} MON</span>
-          {' '}{lang === 'id' ? 'reward. Step 10 menang → reset ke Step 1' : 'reward. Win Step 10 → reset to Step 1'}.
-        </div>
-
-        {/* Total reward highlight */}
-        <div className="bg-green-500/30 border border-green-400/30 text-white rounded-lg p-2 text-center">
-          <div className="text-xs font-mono opacity-80">{lang === 'id' ? 'Total Reward 10 Step' : 'Total 10-Step Reward'}</div>
-          <div className="text-xl font-bold font-mono">{Number(STEP_REWARDS_WEI[0]) * 10 / 1e18} MON</div>
-          <div className="text-xs font-mono opacity-60">= 50% dari deposit 0.01 MON</div>
         </div>
       </div>
 
@@ -150,7 +101,7 @@ export default function RulesBox() {
               </div>
               <div className="font-mono text-xs text-slate-300">
                 {lang === 'id' ? 'Dapat reward + maju ke step berikutnya' : 'Get reward + advance to next step'}
-                <RewardBadge mon={Number(STEP_REWARDS_WEI[0])} />
+                <RewardBadge mon={Number(STEP_REWARDS_WEI[0]) / 1e18} />
               </div>
             </div>
           </div>
