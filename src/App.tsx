@@ -373,6 +373,45 @@ export default function App() {
           </div>
         </header>
 
+        {/* ── CONTRACT INFO BAR ── */}
+        <div className="bg-slate-800 border-b border-slate-700 px-4 sm:px-6 py-2 relative z-10">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div className="text-xs text-slate-500 font-mono">
+              BTC Oracle V2 · Powered by Edwin Al-Syatrie © 2026
+            </div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs text-slate-500 font-mono">
+                {lang === 'id' ? 'Kontrak:' : 'Contract:'}
+              </span>
+              <code className="text-[10px] font-mono text-slate-300 bg-slate-800 px-2 py-1 rounded border border-slate-700 max-w-[120px] truncate block">
+                {CONTRACT_ADDRESS.BTCOraclePredictorV2}
+              </code>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(CONTRACT_ADDRESS.BTCOraclePredictorV2).then(() => {
+                    Swal.fire({ icon: 'success', title: '✅', text: 'Smart Contract tercopy', timer: 2000, showConfirmButton: false, toast: true, position: 'top-end' })
+                  }).catch(() => {
+                    Swal.fire({ icon: 'error', title: '❌', text: 'Gagal copy', timer: 2000, showConfirmButton: false, toast: true, position: 'top-end' })
+                  })
+                }}
+                title={lang === 'id' ? 'Salin alamat kontrak' : 'Copy contract address'}
+                className="px-2 py-1 rounded border border-slate-700 bg-slate-800 hover:bg-slate-700 transition-all text-sm"
+              >
+                📋
+              </button>
+              <a
+                href={`https://testnet.monad.xyz/address/${CONTRACT_ADDRESS.BTCOraclePredictorV2}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={lang === 'id' ? 'Buka di explorer' : 'Open in explorer'}
+                className="px-2 py-1 rounded border border-slate-700 bg-slate-800 hover:bg-slate-700 transition-all text-sm"
+              >
+                🔗
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* ── TAGLINE BANNER ── */}
         <div className="bg-slate-900 border-b border-slate-700 px-4 py-2 relative z-10">
           <div className="max-w-7xl mx-auto text-center">
@@ -394,42 +433,6 @@ export default function App() {
             </div>
           </div>
         </main>
-
-        {/* ── FOOTER ── */}
-        <footer className="flex-shrink-0 border-t border-slate-700 px-6 py-4 bg-slate-900 relative z-10">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <div className="text-xs text-slate-500 font-mono">
-              BTC Oracle V2 · Powered by Edwin Al-Syatrie © 2026
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-500 font-mono">
-                {lang === 'id' ? 'Kontrak:' : 'Contract:'}
-              </span>
-              <code className="text-[10px] font-mono text-slate-400 bg-slate-800 px-2 py-1 rounded border border-slate-700">
-                {CONTRACT_ADDRESS.BTCOraclePredictorV2}
-              </code>
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(CONTRACT_ADDRESS.BTCOraclePredictorV2)
-                  Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: lang === 'id' ? 'Alamat kontrak disalin!' : 'Contract address copied!', showConfirmButton: false, timer: 2000 })
-                }}
-                className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
-                title={lang === 'id' ? 'Salin alamat' : 'Copy address'}
-              >
-                📋
-              </button>
-              <a
-                href={`https://testnet.monad.xyz/address/${CONTRACT_ADDRESS.BTCOraclePredictorV2}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-slate-500 hover:text-slate-300 transition-colors"
-                title={lang === 'id' ? 'Buka explorer' : 'Open explorer'}
-              >
-                🔗
-              </a>
-            </div>
-          </div>
-        </footer>
       </div>
     )
   }
@@ -467,6 +470,45 @@ export default function App() {
           </div>
         </div>
       </header>
+
+      {/* ── CONTRACT INFO BAR (below header) ── */}
+      <div className="bg-slate-800 border-b border-slate-700 px-4 sm:px-6 py-2 relative z-10">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+          <div className="text-xs text-slate-500 font-mono">
+            BTC Oracle V2 · Powered by Edwin Al-Syatrie © 2026
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs text-slate-500 font-mono">
+              {lang === 'id' ? 'Kontrak:' : 'Contract:'}
+            </span>
+            <code className="text-[10px] font-mono text-slate-300 bg-slate-800 px-2 py-1 rounded border border-slate-700 max-w-[120px] truncate block">
+              {CONTRACT_ADDRESS.BTCOraclePredictorV2}
+            </code>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(CONTRACT_ADDRESS.BTCOraclePredictorV2).then(() => {
+                  Swal.fire({ icon: 'success', title: '✅', text: 'Smart Contract tercopy', timer: 2000, showConfirmButton: false, toast: true, position: 'top-end' })
+                }).catch(() => {
+                  Swal.fire({ icon: 'error', title: '❌', text: 'Gagal copy', timer: 2000, showConfirmButton: false, toast: true, position: 'top-end' })
+                })
+              }}
+              title={lang === 'id' ? 'Salin alamat kontrak' : 'Copy contract address'}
+              className="px-2 py-1 rounded border border-slate-700 bg-slate-800 hover:bg-slate-700 transition-all text-sm"
+            >
+              📋
+            </button>
+            <a
+              href={`https://testnet.monad.xyz/address/${CONTRACT_ADDRESS.BTCOraclePredictorV2}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={lang === 'id' ? 'Buka di explorer' : 'Open in explorer'}
+              className="px-2 py-1 rounded border border-slate-700 bg-slate-800 hover:bg-slate-700 transition-all text-sm"
+            >
+              🔗
+            </a>
+          </div>
+        </div>
+      </div>
 
       {/* ── ALL CONTENT (pushes footer down) ── */}
       <div className="flex-1 flex flex-col min-h-0">
@@ -792,46 +834,8 @@ export default function App() {
         </div>
       )}
 
-      {/* ── FOOTER ── */}
-      </div>{/* end flex-1 wrapper */}
-
-      <footer className="flex-shrink-0 border-t border-slate-700 px-6 py-4 bg-slate-900 relative z-10">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 flex-wrap">
-          <div className="text-xs text-slate-500 font-mono">
-            {tr.appTitle} · Powered by Edwin Al-Syatrie © 2026
-          </div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-slate-500 font-mono">
-              {lang === 'id' ? 'Kontrak:' : 'Contract:'}
-            </span>
-            <code className="text-[10px] font-mono text-slate-300 bg-slate-800 px-2 py-1 rounded border border-slate-700 max-w-[120px] truncate block">
-              {CONTRACT_ADDRESS.BTCOraclePredictorV2}
-            </code>
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(CONTRACT_ADDRESS.BTCOraclePredictorV2).then(() => {
-                  Swal.fire({ icon: 'success', title: '✅', text: 'Smart Contract tercopy', timer: 2000, showConfirmButton: false, toast: true, position: 'top-end' })
-                }).catch(() => {
-                  Swal.fire({ icon: 'error', title: '❌', text: 'Gagal copy', timer: 2000, showConfirmButton: false, toast: true, position: 'top-end' })
-                })
-              }}
-              title={lang === 'id' ? 'Salin alamat kontrak' : 'Copy contract address'}
-              className="px-2 py-1 rounded border border-slate-700 bg-slate-800 hover:bg-slate-700 transition-all text-sm"
-            >
-              📋
-            </button>
-            <a
-              href={`https://testnet.monadexplorer.com/address/${CONTRACT_ADDRESS.BTCOraclePredictorV2}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={lang === 'id' ? 'Buka di explorer' : 'Open in explorer'}
-              className="px-2 py-1 rounded border border-slate-700 bg-slate-800 hover:bg-slate-700 transition-all text-sm"
-            >
-              🔗
-            </a>
-          </div>
-        </div>
-      </footer>
+      {/* ── FOOTER REMOVED — info moved to contract bar above ── */}
+      </div>
 
       <LeaderboardModal open={showLeaderboard} onClose={() => setShowLeaderboard(false)} />
     </div>
