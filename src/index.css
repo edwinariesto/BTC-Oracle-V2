@@ -162,3 +162,26 @@ body > *:not(.animated-bg):not(style) {
   width: 100% !important;
   justify-content: center !important;
 }
+
+/* ── SweetAlert2 — force above RainbowKit modal (z-index: 2147483646) ── */
+div:where(.swal2-container) {
+  z-index: 2147483647 !important;
+}
+
+/* All SweetAlert toasts: center-top */
+div:where(.swal2-container).swal2-top-start,
+div:where(.swal2-container).swal2-top,
+div:where(.swal2-container).swal2-top-end {
+  top: 20px !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+/* Fix toast arrow alignment when centered */
+div:where(.swal2-container).swal2-top-start > .swal2-toast,
+div:where(.swal2-container).swal2-top > .swal2-toast,
+div:where(.swal2-container).swal2-top-end > .swal2-toast {
+  inset-inline-start: 0 !important;
+}
